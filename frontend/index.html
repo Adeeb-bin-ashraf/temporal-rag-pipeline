@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temporal RAG</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%97%86%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <main class="page">
+
+    <!-- ============ HERO (dithering card) ============ -->
+    <section class="hero" id="hero">
+      <canvas class="hero-dither" id="ditherCanvas"></canvas>
+      <div class="hero-content">
+        <div class="badge" id="statusBadge">
+          <span class="ping"><span class="ping-dot"></span><span class="ping-core"></span></span>
+          <span id="statusText">Connecting…</span>
+        </div>
+
+        <h1 class="hero-title">
+          Answers grounded<br />
+          <span class="muted-title">in your own sources.</span>
+        </h1>
+
+        <p class="hero-sub">
+          Index a PDF or a web page, then ask questions and get concise, cited answers —
+          the whole pipeline orchestrated end-to-end by Temporal workflows.
+        </p>
+
+        <button class="btn-cta" id="ctaBtn">
+          <span>Start indexing</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ WORKSPACE ============ -->
+    <section class="workspace" id="workspace">
+
+      <!-- Add knowledge -->
+      <article class="card">
+        <header class="card-top">
+          <h2>Add knowledge</h2>
+          <span class="pill" id="vectorsPill">— indexed</span>
+        </header>
+
+        <div class="seg" role="tablist">
+          <button class="seg-btn active" data-mode="pdf" role="tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            PDF
+          </button>
+          <button class="seg-btn" data-mode="url" role="tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20"/></svg>
+            Web URL
+          </button>
+        </div>
+
+        <!-- PDF panel -->
+        <div class="mode-panel" data-panel="pdf">
+          <label class="dropzone" id="dropzone" for="fileInput">
+            <input id="fileInput" type="file" accept="application/pdf" hidden />
+            <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+            <span class="dz-text"><strong>Drop a PDF</strong> or click to browse</span>
+            <span class="dz-file" id="fileName"></span>
+          </label>
+          <button class="link-btn" id="sampleBtn">or use the bundled sample.pdf</button>
+        </div>
+
+        <!-- URL panel -->
+        <div class="mode-panel hidden" data-panel="url">
+          <input class="url-input" id="urlInput" type="url" inputmode="url"
+                 placeholder="https://en.wikipedia.org/wiki/…" />
+          <p class="hint">The page's main text is scraped, chunked, embedded, and stored — exactly like a PDF.</p>
+        </div>
+
+        <button class="btn-primary" id="indexBtn">Index PDF</button>
+
+        <div class="stepper hidden" id="indexStepper"></div>
+        <p class="result-line hidden" id="indexResult"></p>
+      </article>
+
+      <!-- Ask -->
+      <article class="card">
+        <header class="card-top">
+          <h2>Ask a question</h2>
+          <span class="pill subtle">grounded</span>
+        </header>
+
+        <div class="ask-row">
+          <textarea id="question" rows="3" placeholder="e.g. What is this document about?"></textarea>
+        </div>
+        <button class="btn-primary" id="askBtn">
+          Ask
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <div class="stepper hidden" id="askStepper"></div>
+
+        <div class="answer hidden" id="answerBlock">
+          <div class="answer-body" id="answerText"></div>
+          <button class="sources-toggle" id="sourcesToggle" aria-expanded="false">
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            <span id="sourcesLabel">Sources</span>
+          </button>
+          <div class="sources hidden" id="chunks"></div>
+        </div>
+      </article>
+
+    </section>
+
+    <footer class="foot">
+      <span class="foot-name">Built by Adeeb Bin Ashraf</span>
+      <span class="foot-tech">Temporal · Sentence-Transformers · Qdrant · Ollama · FastAPI</span>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
