@@ -54,7 +54,7 @@ flowchart LR
     end
     UI[Web UI] -->|HTTP| API[FastAPI]
     API -->|Temporal client| WF[Temporal Worker]
-    WF -->|@workflow.query| API
+    WF -->|"@workflow.query"| API
 ```
 
 ## Tech Stack
