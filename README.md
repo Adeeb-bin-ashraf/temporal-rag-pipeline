@@ -13,6 +13,23 @@ page/chunk/vector counts and similarity scores.
   <img src="docs/workflow.svg" alt="Temporal RAG Pipeline workflow" width="820">
 </p>
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/dashboard.png" alt="Dashboard — index a PDF or web page and ask grounded questions" width="900">
+  <br><em>The dashboard — index a PDF or web page, then ask for answers grounded in your own sources.</em>
+</p>
+
+<p align="center">
+  <img src="docs/pipeline.png" alt="Live retrieve-rerank-generate pipeline with a Markdown-formatted, cited answer" width="900">
+  <br><em>The pipeline live: fetch → split → embed → store, then embed → retrieve → <strong>rerank</strong> → generate — ending in a Markdown-formatted, grounded answer with its sources.</em>
+</p>
+
+<p align="center">
+  <img src="docs/sources.png" alt="Retrieved source chunks with their origin and rerank scores" width="620">
+  <br><em>Full transparency — the exact chunks behind each answer, with their source and rerank scores.</em>
+</p>
+
 ## Highlights
 
 - **Temporal-orchestrated pipeline** — each responsibility is an isolated activity with its
