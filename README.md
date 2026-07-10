@@ -9,26 +9,9 @@ running workflow using Temporal **workflow queries**, so you watch `Read PDF →
 (and `Embed Query → Retrieve → Generate`) complete in real time, annotated with the actual
 page/chunk/vector counts and similarity scores.
 
-```
-┌───────────────────────────────────────────────────────────────────────┐
-│  Browser (single-page dashboard)                                      │
-│    upload PDF / ask question  ──►  poll live per-stage progress       │
-└───────────────┬─────────────────────────────────▲─────────────────────┘
-                │ HTTP (JSON / multipart)         │ @workflow.query progress
-                ▼                                 │
-┌───────────────────────────────────────────────────────────────────────┐
-│  FastAPI bridge (app/api.py)  ── starts / queries / awaits workflows  │
-└───────────────┬─────────────────────────────────▲─────────────────────┘
-                │ Temporal client                 │
-                ▼                                 │
-┌───────────────────────────────────────────────────────────────────────┐
-│  Temporal worker (worker.py) ── DocumentIndexWorkflow / QAWorkflow    │
-│    activities: read_pdf · split · embed · store · retrieve · generate │
-└──────┬──────────────┬───────────────┬───────────────────┬─────────────┘
-       ▼              ▼               ▼                   ▼
-  PyPDF2 loader   Sentence-       Qdrant vector      Ollama LLM
-                  Transformers    database           (qwen2.5:3b)
-```
+<p align="center">
+  <img src="docs/workflow.svg" alt="Temporal RAG Pipeline workflow" width="820">
+</p>
 
 ## Highlights
 
